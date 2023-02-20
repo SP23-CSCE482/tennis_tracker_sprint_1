@@ -1,0 +1,15 @@
+To run the code for snapshot
+
+For video:
+pyton3 ball_tracking.py -v ballTrackVid2.MOV
+
+For webcam:
+-Go to line 25 in ball_tracking.py and comment out line 27 and line 26 isn't commented out
+python3 ball_tracking.py
+
+For phone camera:
+-Need to install Irium Webcam at https://iriun.com/ on PC and phone
+-Make sure your PC and phone are on the same wifi network
+-Open application on phone and PC to make sure it is connected
+-Go to line 25 in ball_tracking.py and comment out line 26 and line 27 isn't commented out
+python3 ball_tracking.py
