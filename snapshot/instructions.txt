@@ -1,7 +1,7 @@
 To run the code for snapshot
 
 For video:
-pyton3 ball_tracking.py -v ballTrackVid2.MOV
+python3 ball_tracking.py -v ballTrackVid2.MOV
 
 For webcam:
 -Go to line 25 in ball_tracking.py and comment out line 27 and line 26 isn't commented out
