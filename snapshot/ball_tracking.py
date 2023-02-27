@@ -1,103 +1,75 @@
-from collections import deque
-from imutils.video import VideoStream
-import numpy as np
-import argparse
+import math
 import cv2
-import imutils
-import time
+import numpy as np
 
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video", help="path to the (optional) video file")
-ap.add_argument("-b", "--buffer", type=int, default=64,
-    help="max buffer size")
-args = vars(ap.parse_args())
+# Load the input video
+cap = cv2.VideoCapture("ballTrackVid2.MOV")
 
-# define the lower and upper boundaries of the "green"
-# ball in the HSV color space, then initialize
-# list of tracked points
-greenLower = (29, 86, 6)
-greenUpper = (64, 255, 255)
-pts = deque(maxlen=args["buffer"])
-
-# if a video path was not supplied, grab the reference to the webcam
-if not args.get("video", False):
-    # COMMENT OUT 1 LINE: 0 == IRIUM WEBCAM, 1 == PC WEBCAM
-    # vs = VideoStream(src=0).start()
-    vs = VideoStream(src=1).start()
-#otherwise, grab a reference to the video file
-else:
-    vs = cv2.VideoCapture(args["video"])
-#vs = cv2.VideoCapture(1)
-
-#allow the camera or video file to warm up
-time.sleep(2.0)
-
-# keep looking, will continue until we press q or video ends
+# Read the first frame and convert it to grayscale
+ret, previous_frame = cap.read()
+# Loop through the remaining frames
 while True:
-    #grab the current frame
-    frame = vs.read()
-
-    # handle the frame from VideoCapture or VideoStream
-    frame = frame[1] if args.get("video", False) else frame
-
-    #if we are viewing a video and we did not get a frame, then we have reached the end of the video
-    if frame is None:
+    # Read the current frame
+    ret, frame = cap.read()
+    if not ret:
         break
+    img=frame.copy()
+    # Compute the absolute difference between the current frame and the previous frame
+    diff = cv2.absdiff(frame, previous_frame)
 
-    #reside the frame, blur it, and convert it to the HSV color space
-    frame = imutils.resize(frame, width=600)
-    blurred = cv2.GaussianBlur(frame, (11,11), 0)
-    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+    # Apply the green color mask to the diff image
+    lower_green = np.array([0, 50, 0])
+    upper_green = np.array([100, 255, 255])
+    green_mask = cv2.inRange(diff, lower_green, upper_green)
+    diff_masked = cv2.bitwise_and(diff, diff, mask=green_mask)
 
-    #construct a mask for the color "green", then perform a series of dilations and erosions to remove any small blobs left in the mask
-    mask = cv2.inRange(hsv, greenLower, greenUpper)
-    mask = cv2.erode(mask, None, iterations=2)
-    mask = cv2.dilate(mask, None, iterations=2)
+    diff_masked=cv2.cvtColor(diff_masked,cv2.COLOR_RGB2GRAY)
+    ret, diff_masked=cv2.threshold(diff_masked,2,255,cv2.THRESH_BINARY)
+    kernel = np.ones((5,5), np.uint8)
+    diff_masked = cv2.morphologyEx(diff_masked, cv2.MORPH_GRADIENT, kernel)
+    diff_masked = cv2.morphologyEx(diff_masked, cv2.MORPH_CLOSE, kernel)
+    # Find contours in the binary image
+    contours, hierarchy = cv2.findContours(diff_masked, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    # find the contours in the mask and initialize the current (x,y) center of the ball
-    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-        cv2.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-    center = None
+    diff_masked=cv2.cvtColor(diff_masked, cv2.COLOR_GRAY2RGB)
 
-    #only proceed if at least 1 countour was found
-    if len(cnts) > 0:
-        #find the largest contour in the mask, then use it to compute the min enclosing circle and centroid
-        c = max(cnts, key=cv2.contourArea)
-        ((x,y), radius) = cv2.minEnclosingCircle(c)
-        M = cv2.moments(c)
-        center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
-
-        #only proceed if the radius meets a minimum size
-        if radius > 10:
-            #draw the circle and centroid in the frame, then update the list of tracked points
-            cv2.circle(frame, (int(x), int(y)), int(radius),
-                (0,255,255), 2)
-            cv2.circle(frame, center, 5, (0,0,255), -1)
-
-        #update the points queue
-    pts.appendleft(center)
-
-    #loop over the set of tracked points
-    for i in range(1, len(pts)):
-        # if either of the tracked points are None, ignore them
-        if pts[i-1] is None or pts[i] is None:
+    # Loop over all the contours and filter based on circularity
+    filtered_contours = []
+    for contour in contours:
+        # Calculate the circularity of the contour
+        area = cv2.contourArea(contour)
+        perimeter = cv2.arcLength(contour, True)
+        print(area)
+        print(perimeter)
+        if perimeter==0:
             continue
+        circularity = (4 * math.pi * area) / (perimeter ** 2)
+        print(circularity)
+        print("\n")
+        # If the circularity is greater than 0.7, add the contour to the filtered list
+        if circularity > 0.75 and area > 80 and perimeter>30:
+            filtered_contours.append(contour)
 
-        #otherwise, compute the thickness of the line and draw the connecting lines
-        thickness = int(np.sqrt(args["buffer"] / float(i+1)) * 2.5)
-        cv2.line(frame, pts[i-1], pts[i], (0,0,255), thickness)
+    # Loop over all the contours and draw a circle on each one
+    for contour in filtered_contours:
+        # Fit a circle around the contour
+        (x,y), radius = cv2.minEnclosingCircle(contour)
+        center = (int(x),int(y))
+        radius = int(radius)
+    
+        # Draw the circle on the original image
+        cv2.circle(img, center, radius, (255,0,0), 2)
 
-    #show the frame to our screen
-    cv2.imshow("Frame", frame)
-    if cv2.waitKey(20) & 0xFF==ord('d'): # if the letter D is pressed, then break loop and stop displaying the video
+    # Show the final result
+    cv2.imshow("Final Result", img)
+    
+    # Set the current frame as the previous frame for the next iteration
+    previous_frame = frame.copy()
+
+    # Exit the loop if the "q" key is pressed
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-#if we are not using a video file, stop the camera video stream
-if not args.get("video", False):
-    vs.stop()
-else:
-    vs.release()
-
+# Release the video capture object and close all windows
+cap.release()
 cv2.destroyAllWindows()
