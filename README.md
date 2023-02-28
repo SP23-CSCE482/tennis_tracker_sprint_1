@@ -51,6 +51,7 @@ Download this code repository by using git:
 
 
  `git clone git@github.com:SP23-CSCE482/tennis_tracker_sprint_1.git`
+ 
 Install all required dependencies by running:
  `pip install -r requirements.txt`
 
