@@ -1,9 +1,5 @@
 import math
 import cv2
-import imutils
-import time
-import argparse
-from collections import deque
 import numpy as np
 
 # Load the input video
