@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 
 # Load the input video
-cap = cv2.VideoCapture("ballCropped.MOV")
-
+cap = cv2.VideoCapture("ballSlowDown.MOV")
+i = 0
 # Read the first frame and convert it to grayscale
 ret, previous_frame = cap.read()
 # Loop through the remaining frames
@@ -13,7 +13,7 @@ while True:
     ret, frame = cap.read()
     if not ret:
         break
-    img=frame.copy()
+    img=previous_frame.copy()
     # Compute the absolute difference between the current frame and the previous frame
     diff = cv2.absdiff(frame, previous_frame)
 
@@ -39,13 +39,9 @@ while True:
         # Calculate the circularity of the contour
         area = cv2.contourArea(contour)
         perimeter = cv2.arcLength(contour, True)
-        # print(area)
-        # print(perimeter)
         if perimeter==0:
             continue
         circularity = (4 * math.pi * area) / (perimeter ** 2)
-        # print(circularity)
-        # print("\n")
         # If the circularity is greater than 0.7, add the contour to the filtered list
         if circularity > 0.75 and area > 80 and perimeter>30:
             filtered_contours.append(contour)
@@ -56,11 +52,13 @@ while True:
         # Fit a circle around the contour
         (x,y), radius = cv2.minEnclosingCircle(contour)
         center = (int(x),int(y))
-        print(center)
         radius = int(radius)
     
         # Draw the circle on the original image
         cv2.circle(img, center, radius, (255,0,0), 2)
+        cv2.imwrite('frame'+str(i)+'.jpg', img)
+        print('frame'+str(i)+'.jpg ', center) 
+        i += 1
 
     # Show the final result
     cv2.imshow("Final Result", img)
@@ -75,23 +73,3 @@ while True:
 # Release the video capture object and close all windows
 cap.release()
 cv2.destroyAllWindows()
-
-
-# #only proceed if at least 1 countour was found
-#     if len(cnts) > 0:
-#         #find the largest contour in the mask, then use it to compute the min enclosing circle and centroid
-#         c = max(cnts, key=cv2.contourArea)
-#         ((x,y), radius) = cv2.minEnclosingCircle(c)
-#         M = cv2.moments(c)
-#         center = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
-
-#         #only proceed if the radius meets a minimum size
-#         if radius > 10:
-#             #draw the circle and centroid in the frame, then update the list of tracked points
-#             cv2.circle(frame, (int(x), int(y)), int(radius),
-#                 (0,255,255), 2)
-#             cv2.circle(frame, center, 5, (0,0,255), -1)
-
-#         #update the points queue
-#     pts.appendleft(center)
-#     print(center)
