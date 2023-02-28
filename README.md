@@ -50,7 +50,7 @@ wincertstore==0.2
 Download this code repository by using git:
 
 
- `git clone git@github.com:SP23-CSCE482/tennis_tracker_sprint_1.git’
+ `git clone git@github.com:SP23-CSCE482/tennis_tracker_sprint_1.git`
 Install all required dependencies by running:
  `pip install -r requirements.txt`
 
@@ -145,9 +145,9 @@ We are working with openCV in order to detect the lines on the tennis court. Aft
 
 
 To run our python files your environment needs to have the following libraries installed:
-1. pip install cv2
-2. pip install numpy
-2. pip install imutils
+1. `pip install cv2`
+2. `pip install numpy`
+2. `pip install imutils`
 
 
 ## Running Line detection files ##
