@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 # Load the input video
-cap = cv2.VideoCapture("ballTrackVid2.MOV")
+cap = cv2.VideoCapture("ballCorner.MOV")
 
 # Read the first frame and convert it to grayscale
 ret, previous_frame = cap.read()
