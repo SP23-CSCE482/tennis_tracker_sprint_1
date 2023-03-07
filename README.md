@@ -39,7 +39,6 @@ wincertstore==0.2
 ## External Deps  ##
 
 
-* Heroku CLI - Download latest version at https://devcenter.heroku.com/articles/heroku-cli
 * Git - Downloat latest version at https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 * Python3 - Download latest version at https://www.python.org/downloads/
 
@@ -100,19 +99,8 @@ Not applicable
 ## Deployment ##
 
 
-These are instructions on how the app will be deployed in heroku
-
-
-Setup a Heroku account: https://signup.heroku.com/
-
-
-From the heroku dashboard select `New` -> ‘New app`
-
-
-Click `New app` under review apps, and link your test branch from your repo
-
-
-Under staging app, select `Create new app` and link your main branch from your repo
+After talking with the TA Nick, we will not be deploying the application. 
+The testing will have to be using a computer and phone locally. 
 
 
 ## CI/CD ##
