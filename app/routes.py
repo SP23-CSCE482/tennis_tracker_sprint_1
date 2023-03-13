@@ -23,16 +23,16 @@ def index():
    """Video streaming home page."""
    return render_template('index.html')
 
-@app.route('/upload')
-def upload():
-   return render_template('upload.html')
+# @app.route('/upload')
+# def upload():
+#    return render_template('upload.html')
 	
-@app.route('/uploader', methods = ['GET', 'POST'])
-def uploader():
-   if request.method == 'POST':
-      f = request.files['file']
-      f.save(os.path.join(app.config['UPLOAD_FOLDER']), secure_filename(f.filename))
-      return 'file uploaded successfully'
+# @app.route('/uploader', methods = ['GET', 'POST'])
+# def uploader():
+#    if request.method == 'POST':
+#       f = request.files['file']
+#       f.save(os.path.join(app.config['UPLOAD_FOLDER']), secure_filename(f.filename))
+#       return 'file uploaded successfully'
 
 @app.route('/video_feed')
 def video_feed():
