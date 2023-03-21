@@ -4,7 +4,7 @@ import os
 import cv2
 from app import app
 
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 
 def gen_frames():  # generate frame by frame from camera
     while True:

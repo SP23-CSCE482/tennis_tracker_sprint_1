@@ -1,0 +1,12 @@
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  background-color: black;
+}
+
+.video-container img {
+  max-height: 100%;
+  max-width: 100%;
+}
