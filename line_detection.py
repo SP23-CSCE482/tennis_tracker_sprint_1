@@ -49,11 +49,11 @@ dilated = cv2.dilate(edges, np.ones((2,2), dtype=np.uint8))
 
 #! This is what has achieved best result so far, but it contains too many lines. 
 # ----- contours ------
-ret, thresh = cv2.threshold(gray, 127, 255, 0)
-contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-cv2.drawContours(image, contours, -1, (0, 255, 0), 5)
-#----- contours -------
-cv2.imshow("image", image)
+# ret, thresh = cv2.threshold(gray, 127, 255, 0)
+# contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+# cv2.drawContours(image, contours, -1, (0, 255, 0), 5)
+# #----- contours -------
+# cv2.imshow("image", image)
 
 # cv2.imshow('dilated.png', dilated)
 cv2.waitKey(0)
@@ -83,14 +83,14 @@ points = []
 for line in lines:
     for x1, y1, x2, y2 in line:
         points.append(((x1 + 0.0, y1 + 0.0), (x2 + 0.0, y2 + 0.0)))
-        print(x1 + 0.0, y1 + 0.0)
-        cv2.line(image, (x1, y1), (x2, y2), (0, 255, 0), 5)  
+        print(x1 + 0.0, y1 + 0.0, x2, y2)
+        cv2.line(image, (x1, y1), (x2, y2), (0, 255, 0), 2)  
 
-points = []
-for line in lines:
-    for x1, y1, x2, y2 in line:
-        points.append(((x1 + 0.0, y1 + 0.0), (x2 + 0.0, y2 + 0.0)))
-        cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 5)  
+# points = []
+# for line in lines:
+#     for x1, y1, x2, y2 in line:
+#         points.append(((x1 + 0.0, y1 + 0.0), (x2 + 0.0, y2 + 0.0)))
+#         cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 5)  
               
 
 # cv2.imshow('houghlines.png', line_image)
