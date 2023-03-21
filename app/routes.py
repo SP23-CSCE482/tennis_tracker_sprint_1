@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, url_for, redirect, request, Response
 import cv2
-from app import app
+from app import app, camera
 
-camera = cv2.VideoCapture(1)
+
 
 def gen_frames():  # generate frame by frame from camera
     while True:
@@ -19,6 +19,9 @@ def gen_frames():  # generate frame by frame from camera
 @app.route('/')
 def index():
    """Video streaming home page."""
+
+
+
    return render_template('index.html')
 
 @app.route('/video_feed')
