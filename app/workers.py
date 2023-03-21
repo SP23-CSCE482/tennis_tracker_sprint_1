@@ -316,7 +316,6 @@ class Tracker:
 
             diff_masked=cv2.resize(diff_masked,(int(len(img[0])*0.7),int(len(img)*0.7)))
             # Show the final result
-            cv2.imshow("Final Result", img)
             # Set the current frame as the previous frame for the next iteration
             previous_frame = frame.copy()
 
@@ -328,7 +327,6 @@ class Tracker:
                 for point in self.get_points(intersection,avg_radius):
                     cv2.circle(img,point,1, (255,120,120),2)
                 img=cv2.resize(img,(int(len(img[0])*0.7),int(len(img)*0.7)))
-                cv2.imshow("Final Result", img)
                 cv2.waitKey(0)
                 return intersection
         cv2.destroyAllWindows()
