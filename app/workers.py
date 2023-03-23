@@ -106,10 +106,19 @@ class InOut():
                 if abs(self.baseLine1['x2'] - x1) < 2:
                     self.baseLine2 = line
         
-    def inOut(self, points):
+    def testpoints(self, x,y):
+        ballPoints = []
+        for i in range(8):
+            angle = math.radians(i * 45)
+            x_i = x + 8 * math.cos(angle)
+            y_i = y + 8 * math.sin(angle)
+            ballPoints.append(tuple((x_i, y_i)))
+        return ballPoints
+    
+    def inOut(self, x, y):
         
         if x > self.baseLine1['x2']:
-            ballPoints = points
+            ballPoints = self.testpoints(x,y)
             ballStatus = False
             for i in ballPoints:
                 position = np.sign((self.baseLine2['x2'] - self.baseLine2['x1']) * (i[1] - self.baseLine2['y1']) - (self.baseLine2['y2'] - self.baseLine2['y1']) * (i[0] - self.baseLine2['x1']))
@@ -123,7 +132,7 @@ class InOut():
             
                 
         elif x < self.baseLine1['x2']: # checking if the ball is in or out on the left hand side
-            ballPoints2 = points
+            ballPoints2 = self.testpoints(x,y)
             ballStatus2 = False
             for i in ballPoints2:
                 position = np.sign((self.baseLine1['x2'] - self.baseLine1['x1']) * (i[1] - self.baseLine1['y1']) - (self.baseLine1['y2'] - self.baseLine1['y1']) * (i[0] - self.baseLine1['x1']))
@@ -153,7 +162,6 @@ class Tracker:
         angle = math.atan2(dy, dx)  # calculate the angle in radians
         angle = math.degrees(angle)  # convert the angle to degrees
         return angle
-    
     def get_points(self,p,r):
         ballPoints = []
         for i in range(8):
@@ -163,7 +171,6 @@ class Tracker:
             ballPoints.append(tuple((x_i, y_i)))
         print(ballPoints)
         return ballPoints
-    
     def track(self, vs):
         # Read the first frame and convert it to grayscale
         ret, previous_frame = vs.read()
@@ -325,9 +332,7 @@ class Tracker:
         cv2.destroyAllWindows()
         return None
     
-
-
-
-# in_out_object = InOut("tennis_court.jpg")
-# in_out_object.getLines()
-# testPoints = [(318, 617), (404, 684), (565, 778), (616, 658), (906, 783), (1101, 742), (1164, 546), (980, 557), (1383, 666), (1453, 605), (1273, 638), (1242, 728), (1055, 847), (799, 848), (847, 722), (1426, 718), (1235, 818), (1215, 844), (478, 792), (565, 857), (78, 722), (72, 827), (196, 837), (205, 756), (306, 762), (383, 847), (1313, 869), (1457, 809), (1355, 800), (501, 833)]
+    
+in_out_object = InOut("tennis_court.jpg")
+in_out_object.getLines()
+testPoints = [(318, 617), (404, 684), (565, 778), (616, 658), (906, 783), (1101, 742), (1164, 546), (980, 557), (1383, 666), (1453, 605), (1273, 638), (1242, 728), (1055, 847), (799, 848), (847, 722), (1426, 718), (1235, 818), (1215, 844), (478, 792), (565, 857), (78, 722), (72, 827), (196, 837), (205, 756), (306, 762), (383, 847), (1313, 869), (1457, 809), (1355, 800), (501, 833)]
