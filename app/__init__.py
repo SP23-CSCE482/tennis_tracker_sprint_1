@@ -16,12 +16,10 @@ else:
     exit()
 
 
-inout = InOut('first_frame.jpg')
-
 # initalize the InOut and Tracker classes
 
+inout = InOut('first_frame.jpg')
+
 tracker = Tracker()
-
-
 
 from app import routes
