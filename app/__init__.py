@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 
 #take a snapshot of the first frame
 success, frame = camera.read()
