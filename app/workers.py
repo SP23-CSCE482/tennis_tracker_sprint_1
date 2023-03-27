@@ -8,7 +8,6 @@ import math
 
 
 class InOut():
-    
     def __init__(self, image):
         self.img = cv2.imread(image)
         self.baseLine1 = {}
