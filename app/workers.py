@@ -5,6 +5,8 @@ This file will contain the classes that will do the ball tracking and in/out det
 import cv2
 import numpy as np
 import math
+import threading
+import time
 
 
 class InOut():
@@ -113,10 +115,12 @@ class InOut():
             ballPoints.append(tuple((x_i, y_i)))
         return ballPoints
     
-    def inOut(self, x, y):
-        
+    def inOut(self, ballPoints):
+        x = ballPoints[0][0]
+        y = ballPoints[0][1]
+
         if x > self.baseLine1['x2']:
-            ballPoints = self.testpoints(x,y)
+            # ballPoints = self.testpoints(x,y)
             ballStatus = False
             for i in ballPoints:
                 position = np.sign((self.baseLine2['x2'] - self.baseLine2['x1']) * (i[1] - self.baseLine2['y1']) - (self.baseLine2['y2'] - self.baseLine2['y1']) * (i[0] - self.baseLine2['x1']))
@@ -130,9 +134,9 @@ class InOut():
             
                 
         elif x < self.baseLine1['x2']: # checking if the ball is in or out on the left hand side
-            ballPoints2 = self.testpoints(x,y)
+            # ballPoints2 = self.testpoints(x,y)
             ballStatus2 = False
-            for i in ballPoints2:
+            for i in ballPoints:
                 position = np.sign((self.baseLine1['x2'] - self.baseLine1['x1']) * (i[1] - self.baseLine1['y1']) - (self.baseLine1['y2'] - self.baseLine1['y1']) * (i[0] - self.baseLine1['x1']))
                 cv2.circle(self.img, (round(i[0]),round(i[1])), 3, (0,255,255), -1)
                 if position == 0 or position == -1:
@@ -141,6 +145,26 @@ class InOut():
                 return True
             else:
                 return False
+
+    def update_result(self, ballstatus):
+        
+        if ballstatus:
+            text = 'IN!'
+            background_class = 'green-background'
+            
+        else:
+            text = 'OUT!'
+            background_class = 'red-background'
+        
+        return {'text' : text, 'background_class': background_class}
+    
+    # def check_points_and_update_webpage(self, ballpoints):
+    #     return self.update_flask(self.inOut(ballpoints))
+            
+            
+
+
+        
 
 class Tracker:
     def __init__(self):
@@ -282,7 +306,10 @@ class Tracker:
                         avg_radius = 0
                     x1,y1=points[0]
                     x2,y2=points[1]
-                    m1=(y1-y2)/(x1-x2)
+                    try:
+                        m1=(y1-y2)/(x1-x2)
+                    except:
+                        m1 = 0
                     b1=y1-(m1*x1)
                     x1,y1=points[2]
                     x2,y2=points[3]
@@ -328,10 +355,53 @@ class Tracker:
                     cv2.circle(img,point,1, (255,120,120),2)
                 img=cv2.resize(img,(int(len(img[0])*0.7),int(len(img)*0.7)))
                 cv2.waitKey(0)
-                return intersection
-        cv2.destroyAllWindows()
+                return points
+                
+                
+                # exit()
+
+                # return intersection
+        
         return None
-    
+
+
+class CameraProcessorThread(threading.Thread):
+    def __init__(self, camera, inout):
+        super().__init__()
+        self.stop_event = threading.Event()
+        self.tracker = Tracker()
+        self.inout = inout
+        self.camera = camera
+        self.result = {
+                'text': 'NO CALLS YET',
+                'background_class': 'grey-background'
+            }
+        self.should_stop = False
+        
+
+    def run(self):
+        # Call your processing class to process the camera stream
+        # When something happens in the backend, set the result variable
+        while not self.should_stop:
+            try:
+                points = self.tracker.track(self.camera)
+                print(points)
+                print("IT returned")
+                ballstatus = self.inout.inOut(points)
+                self.result = self.inout.update_result(ballstatus)
+
+                print("Changed Result:", self.result)
+                # time.sleep(10)
+                
+            except KeyboardInterrupt:
+                break
+
+        
+    def stop(self):
+        self.should_stop = True
+        self.stop_event.set()
+
+
 
 #in_out_object = InOut("tennis_court.jpg")
 #in_out_object.getLines()

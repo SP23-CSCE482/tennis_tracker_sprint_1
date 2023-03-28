@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, url_for, redirect, request, Response
 import cv2
-from app import app, camera
+from app import app, camera, camera_processor_thread
+
 
 def gen_frames():  # generate frame by frame from camera
     while True:
@@ -17,8 +18,13 @@ def gen_frames():  # generate frame by frame from camera
 @app.route('/')
 def index():
    """Video streaming home page."""
-   text = 'No Calls Yet'
-   background_class = 'grey-background'
+   result = camera_processor_thread.result
+   if result:
+      text = result['text']
+      background_class = result['background_class']
+   else:
+      text = ''
+      background_class = ''
 
    return render_template('index.html', text=text, background_class=background_class)
 
@@ -26,5 +32,4 @@ def index():
 def video_feed():
    #Video streaming route. Put this in the src attribute of an img tag
    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
 
