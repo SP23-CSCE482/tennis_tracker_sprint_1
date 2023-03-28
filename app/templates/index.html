@@ -17,7 +17,7 @@
     />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/app/styles/index.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
 
     <title>Live Streaming Demonstration</title>
   </head>
@@ -29,9 +29,13 @@
           <div class="video-container">
             <img src="{{ url_for('video_feed') }}" width="100%" />
           </div>
+          <div class = "{{ background_class }} ">
+            <p class = "in-out-text" > {{text}}</p>
+          </div>
         </div>
       </div>
     </div>
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

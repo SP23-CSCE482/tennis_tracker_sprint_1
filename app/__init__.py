@@ -8,12 +8,16 @@ app = Flask(__name__)
 camera = cv2.VideoCapture(1)
 
 #take a snapshot of the first frame
-success, frame = camera.read()
-if success:
-    cv2.imwrite('first_frame.jpg', frame)
-else:
-    print('Error: Could not read first frame')
-    exit()
+# try:
+#     success, frame = camera.read()
+#     if success:
+#         cv2.imwrite('first_frame.jpg', frame)
+#     else:
+#         print('Error: Could not read first frame')
+# except:
+#     print('Error: Could not read first frame')
+#     camera = cv2.VideoCapture(1)
+    
 
 
 # initalize the InOut and Tracker classes

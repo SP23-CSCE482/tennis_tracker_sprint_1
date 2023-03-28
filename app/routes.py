@@ -17,7 +17,10 @@ def gen_frames():  # generate frame by frame from camera
 @app.route('/')
 def index():
    """Video streaming home page."""
-   return render_template('index.html')
+   text = 'No Calls Yet'
+   background_class = 'grey-background'
+
+   return render_template('index.html', text=text, background_class=background_class)
 
 @app.route('/video_feed')
 def video_feed():
