@@ -192,7 +192,6 @@ class Tracker:
             x_i = int(p[0] + r * math.cos(angle))
             y_i = int(p[1] + r * math.sin(angle))
             ballPoints.append(tuple((x_i, y_i)))
-        print(ballPoints)
         return ballPoints
     
     def track(self, vs):
@@ -212,9 +211,6 @@ class Tracker:
                 print("error reading capture")
                 break
             img=frame.copy()
-            if wait:
-                cv2.waitKey(0)
-                wait=False
             # Compute the absolute difference between the current frame and the previous frame
             diff = cv2.absdiff(frame, previous_frame)
 
@@ -261,7 +257,6 @@ class Tracker:
                         radius = int(radius)
                         centers.append(center)
                         radii.append(radius)
-                        #cv2.circle(img,center,radius,[255,255,255],1)
                     uniqueCenters=[centers[0]]
                     for i in range(1,len(centers)):
                         if self.dist(centers[i],uniqueCenters[len(uniqueCenters)-1])>4:
@@ -282,8 +277,6 @@ class Tracker:
                     for i in range(2,len(ballCenters)-1):
                         dAngle=abs(self.angle(ballCenters[i-2],ballCenters[i-1])-self.angle(ballCenters[i-1],ballCenters[i]))
                         if dAngle>maxdAngle:
-                            print(self.angle(ballCenters[i-2],ballCenters[i-1]))
-                            print(self.angle(ballCenters[i-1],ballCenters[i]))
                             maxdAngle=dAngle
                             maxdAnglei=i
                             break
@@ -304,58 +297,39 @@ class Tracker:
                         avg_radius = int(radii_sum / count)
                     else:
                         avg_radius = 0
-                    x1,y1=points[0]
-                    x2,y2=points[1]
                     try:
+                        x1,y1=points[0]
+                        x2,y2=points[1]
                         m1=(y1-y2)/(x1-x2)
+                        b1=y1-(m1*x1)
+                        x1,y1=points[2]
+                        x2,y2=points[3]
+                        m2=(y1-y2)/(x1-x2)
+                        b2=y1-(m2*x1)
+                        x=-(b1-b2)/(m1-m2)
+                        y=m1*x+b1
+                        # set the start and end points of the line
+                        x1 = 0
+                        y1 = int(m1 * x1 + b1)
+                        x2 = 2000
+                        y2 = int(m1 * x2 + b1)
+
+                        # use cv2.line() function to draw the line
+                        # set the start and end points of the line
+                        x1 = 0
+                        y1 = int(m2 * x1 + b2)
+                        x2 = 2000
+                        y2 = int(m2 * x2 + b2)
+                        intersection=(int(x),int(y))
                     except:
-                        m1 = 0
-                    b1=y1-(m1*x1)
-                    x1,y1=points[2]
-                    x2,y2=points[3]
-                    m2=(y1-y2)/(x1-x2)
-                    b2=y1-(m2*x1)
-                    x=-(b1-b2)/(m1-m2)
-                    y=m1*x+b1
-                    # set the start and end points of the line
-                    x1 = 0
-                    y1 = int(m1 * x1 + b1)
-                    x2 = 2000
-                    y2 = int(m1 * x2 + b1)
-
-                    # use cv2.line() function to draw the line
-                    # set the start and end points of the line
-                    x1 = 0
-                    y1 = int(m2 * x1 + b2)
-                    x2 = 2000
-                    y2 = int(m2 * x2 + b2)
-
-                    # use cv2.line() function to draw the line
-
-                    intersection=(int(x),int(y))
-                    #for point in points:
-                        #cv2.circle(img, point, avg_radius, (255,0,0),2)
-                    # Loop over all the contours and draw a circle on each one
-                    cv2.circle(img, intersection, avg_radius, (79,255,223), -1)
-                    wait=True
+                        pass
                 frameCount=0
                 points=[]
 
-            diff_masked=cv2.resize(diff_masked,(int(len(img[0])*0.7),int(len(img)*0.7)))
-            # Show the final result
             # Set the current frame as the previous frame for the next iteration
             previous_frame = frame.copy()
-
-            # Exit the loop if the "q" key is pressed
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
             if intersection[0]>=0:
-                points=self.get_points(intersection,avg_radius)
-                for point in self.get_points(intersection,avg_radius):
-                    cv2.circle(img,point,1, (255,120,120),2)
-                img=cv2.resize(img,(int(len(img[0])*0.7),int(len(img)*0.7)))
-                cv2.waitKey(0)
-                return points
+                return self.get_points(intersection,avg_radius)
                 
                 
                 # exit()
