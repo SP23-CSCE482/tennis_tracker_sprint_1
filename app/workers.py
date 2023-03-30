@@ -280,7 +280,11 @@ class Tracker:
                             maxdAngle=dAngle
                             maxdAnglei=i
                             break
-                    points=[ballCenters[maxdAnglei-2],ballCenters[maxdAnglei-1],ballCenters[maxdAnglei],ballCenters[maxdAnglei+1]]    
+                    try:
+                        points=[ballCenters[maxdAnglei-2],ballCenters[maxdAnglei-1],ballCenters[maxdAnglei],ballCenters[maxdAnglei+1]]    
+                    except:
+                        previous_frame = frame.copy()
+                        continue
                     points = sorted(points, key=lambda p: p[1])
                     radii_sum = 0
                     count = 0
