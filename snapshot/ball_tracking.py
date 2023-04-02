@@ -104,7 +104,7 @@ while (cap.isOpened()):
         cv2.circle(img, ball_center, ball_radius, (255,0,0), 2)
         if (i == 22) | (i == 17) | (i == 18) | (i == 19) | (i == 20) | (i == 21):
             # print(i, MaxY, ball_pos[1], yPrev)
-            cv2.imwrite('frame'+ str(i)+'.jpg', frame)
+            cv2.imwrite('frame'+ str(i)+'.jpg', img)
         # if ((ball_vel > 0) & (prev_vel < 0)) | ((ball_vel < 0) & (prev_vel > 0)):
         #     cv2.imwrite('frame'+str(i)+'.jpg', diff_masked)
         #     print('frame'+str(i)+'.jpg ', ball_center) 
@@ -118,6 +118,8 @@ while (cap.isOpened()):
 
     # Show the final result
     cv2.imshow("Final Result", img)
+    if(i == 20):
+        cv2.imwrite('img'+ str(i)+'.jpg', img)
     
     # Set the current frame as the previous frame for the next iteration
     # previous_frame = frame.copy()
