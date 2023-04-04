@@ -1,16 +1,16 @@
-/* .video-container {
+.video-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 500px;
-    background-color: black;
+    height: 100%;
+    /* background-color: black; */
   }
   
   .video-container img {
     max-height: 100%;
     max-width: 100%;
   }
-   */
+  
 
 .in-out-text{
     color: black;
@@ -19,11 +19,27 @@
     text-align: center;
 }
 .green-background {
-background-color: green !important;
+    background-color: green !important;
+    border-radius: 10px;
+    height: 30px;
 }
 .red-background {
     background-color: red !important;
+    border-radius: 10px;
+    height: 30px;
 }
 .grey-background {
     background-color: rgb(163, 163, 163) !important;
+    border-radius: 10px;
+    height: 30px;
 }
+/* body {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cpath fill="%23ddd" d="M0 0h8v8H0z"/%3E%3Cpath stroke="%23999999" stroke-width=".5" d="M.5.5l7 7m-7 0l7-7"/%3E%3C/g%3E%3C/svg%3E');
+  } */
+  
+
+  body {
+    font-family: 'Font-Name', sans-serif;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"%3E%3Crect fill="%23f5f5f5" width="8" height="8" rx="1"/%3E%3Ccircle cx="1" cy="1" r="1" fill="%23ccc"/%3E%3Ccircle cx="3" cy="3" r="1" fill="%23ccc"/%3E%3Ccircle cx="5" cy="5" r="1" fill="%23ccc"/%3E%3Ccircle cx="7" cy="7" r="1" fill="%23ccc"/%3E%3C/svg%3E');
+  }
+  
