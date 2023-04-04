@@ -21,7 +21,7 @@ currentFrameCheck = True
 
 
 # Load the input video
-cap = cv2.VideoCapture('3.mp4')
+cap = cv2.VideoCapture('4.mp4')
 
 # Getting the timestamp of the video
 fps = cap.get(cv2.CAP_PROP_FPS)
