@@ -344,6 +344,7 @@ class Tracker:
 
 
 class CameraProcessorThread(threading.Thread):
+    
     def __init__(self, camera, inout):
         super().__init__()
         self.stop_event = threading.Event()
@@ -362,17 +363,76 @@ class CameraProcessorThread(threading.Thread):
         # When something happens in the backend, set the result variable
         while not self.should_stop:
             try:
-                points = self.tracker.track(self.camera)
-                print(points)
-                print("IT returned")
-                ballstatus = self.inout.inOut(points)
-                self.result = self.inout.update_result(ballstatus)
+                print("Tracking")
+                
+                # points = self.tracker.track(self.camera)
+                # print(points)
+                # print("IT returned")
+                # ballstatus = self.inout.inOut(points)
+                # self.result = self.inout.update_result(ballstatus)
 
-                print("Changed Result:", self.result)
+                # print("Changed Result:", self.result)
                 # time.sleep(10)
                 
             except KeyboardInterrupt:
+                print("Keyboard Interrupt")
+                self.should_stop = True
                 break
+
+        
+    def stop(self):
+        self.should_stop = True
+        self.stop_event.set()
+
+class CameraRecordingThread(threading.Thread):
+    
+    def __init__(self, camera, get_sample_recording, name, length_seconds=10):
+        super().__init__()
+        self.stop_event = threading.Event()
+        self.camera = camera
+        self.get_sample_recording = get_sample_recording
+        self.name = name
+        self.length_seconds = length_seconds
+        self.should_stop = False
+        
+
+    def run(self):
+        if self.get_sample_recording:
+            # Get the frame rate and frame size of the video stream
+            frame_rate = int(self.camera.get(cv2.CAP_PROP_FPS))
+            frame_size = (int(self.camera.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+
+            # Define the output file name and codec
+            output_file = self.name
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+
+            # Create the video writer object
+            writer = cv2.VideoWriter(output_file, fourcc, frame_rate, frame_size)
+
+            # Get the start time
+            start_time = time.time()
+
+            # Loop through the frames
+            while True:
+                # Read a frame from the video capture object
+                ret, frame = self.camera.read()
+
+                # Check if the frame was successfully read
+                if not ret:
+                    break
+
+                # Write the frame to the video file
+                writer.write(frame)
+
+                # Check if 5 minutes have elapsed
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= self.length_seconds:
+                    break
+
+            # Release the video capture object and the video writer object
+            # self.camera.release()
+            writer.release()
+        
 
         
     def stop(self):
