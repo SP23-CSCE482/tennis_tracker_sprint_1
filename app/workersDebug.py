@@ -116,6 +116,17 @@ class InOut():
                 if x1 > maxX:
                     maxX = x1
                     self.sideLine = line
+
+        for line in sorted_line_data:
+            x1, y1, x2, y2 = line['x1'], line['y1'], line['x2'], line['y2']
+            print(x1,y1,x2,y2, line['slope'])
+            cv2.line(self.img, (x1,y1), (x2,y2), (0,0,255), 2)
+
+        cv2.namedWindow('Lines')
+        cv2.imshow('Lines', self.img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
         
     def testpoints(self, x,y):
         ballPoints = []
@@ -137,9 +148,12 @@ class InOut():
                 if position == 0 or position == -1:
                     ballStatus = True
             if ballStatus:
+                print("in")
                 return True
             else:
+                print("out")
                 return False
+
         elif ballXPoint < self.baseLine['x2']: # checking if the ball is in or out on the left hand side
             ballStatus2 = False
             for i in ballPoints:
@@ -147,8 +161,10 @@ class InOut():
                 if position == 0 or position == -1:
                     ballStatus2 = True
             if ballStatus2:
+                print("in")
                 return True
             else:
+                print("out")
                 return False
 
 
@@ -381,8 +397,10 @@ class CameraProcessorThread(threading.Thread):
         self.should_stop = True
         self.stop_event.set()
 
-
-
-in_out_object = InOut("testFrame.jpg")
+in_out_object = InOut('testFrame.jpg')
 in_out_object.getLines()
 testPoints = [(318, 617), (404, 684), (565, 778), (616, 658), (906, 783), (1101, 742), (1164, 546), (980, 557), (1383, 666), (1453, 605), (1273, 638), (1242, 728), (1055, 847), (799, 848), (847, 722), (1426, 718), (1235, 818), (1215, 844), (478, 792), (565, 857), (78, 722), (72, 827), (196, 837), (205, 756), (306, 762), (383, 847), (1313, 869), (1457, 809), (1355, 800), (501, 833)]
+
+for i in testPoints:
+    points = in_out_object.testpoints(i[0],i[1])
+    in_out_object.inOut(points)
