@@ -397,10 +397,10 @@ class CameraProcessorThread(threading.Thread):
         self.should_stop = True
         self.stop_event.set()
 
-in_out_object = InOut('testFrame.jpg')
-in_out_object.getLines()
-testPoints = [(318, 617), (404, 684), (565, 778), (616, 658), (906, 783), (1101, 742), (1164, 546), (980, 557), (1383, 666), (1453, 605), (1273, 638), (1242, 728), (1055, 847), (799, 848), (847, 722), (1426, 718), (1235, 818), (1215, 844), (478, 792), (565, 857), (78, 722), (72, 827), (196, 837), (205, 756), (306, 762), (383, 847), (1313, 869), (1457, 809), (1355, 800), (501, 833)]
+# in_out_object = InOut('testFrame.jpg')
+# in_out_object.getLines()
+# testPointss = [(31, 818), (29, 856), (53, 888), (311, 878), (1465, 858), (1397, 881), (1447, 890), (57, 747), (284, 781), (781, 886), (993, 900), (1183, 877), (1382, 813), (499, 889)]
 
-for i in testPoints:
-    points = in_out_object.testpoints(i[0],i[1])
-    in_out_object.inOut(points)
+# for i in testPointss:
+#     points = in_out_object.testpoints(i[0],i[1])
+#     in_out_object.inOut(points)
