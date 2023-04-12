@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 
 # camera  = cv2.VideoCapture("testVideo.MOV")
 
@@ -30,7 +30,7 @@ except:
 
 # initalize the InOut and Tracker classes
 
-inout = InOut('media/static_first_frame.jpg')
+inout = InOut('media/generated_first_frame.jpg')
 inout.getLines()
 
 camera_processor_thread = CameraProcessorThread(camera, inout)

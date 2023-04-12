@@ -410,7 +410,7 @@ class CameraRecordingThread(threading.Thread):
 
             # Create the video writer object
             writer = cv2.VideoWriter(output_file, fourcc, frame_rate, frame_size)
-
+commi            time.sleep(20)
             # Get the start time
             start_time = time.time()
 
