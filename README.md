@@ -123,7 +123,17 @@ https://pythonbasics.org/flask-upload-file/
 Admins looking for support should first look at the application help page.
 Users looking for help seek out assistance from the customer.
 
+## FAQ ##
 
+1. How does the tennis tracker application work? - The application uses four cameras placed at each corner of the court to capture footage of the court. Using computer  vision, it detects and tracks the ball to determine if it is in or out of bounds.
+2. How accurate is the ball tracking system? - We are currently analyzing data to determine the accuracy, but preliminary results indicate it is more accurate than 50 percent of the time.
+3. How many cameras are used in the ball tracking system? - The cameras can work independently, so at least one camera is required, but up to four cameras can be used for greater accuracy.
+4. Is the tennis tracker application able to distinguish between different types of shots (e.g. serve, forehand, backhand)? - No, the application only tracks if a ball is in or out based on the baseline and sideline.
+5. How long does it take for the tennis tracker application to generate a call? - The application generates a call in approximately 5-10 seconds.
+6. Can the tennis tracker application be used in real-time during a tennis match? - Yes, the application can be used in real-time with proper calibration.
+7. What is the maximum distance that the cameras can track the ball? - We are currently testing the maximum distance, but the application can track balls from a distance of 40-50 feet.
+8. What are the technical requirements for using the tennis tracker application? - The technical requirements can be found in the readme file.
+9. Can the tennis tracker application be integrated with other software systems (e.g. scorekeeping, live streaming)? - As of right now, the application cannot be integrated with other software systems, such features could come in future updates. 
 
 
 ## Line Detection ## 
