@@ -13,9 +13,9 @@ Our team is creating an application that will help determine if a ball lands in 
 This code has been run and tested on:
 
 
-Python = 3.10
-autocommand==2.2.1
-click==8.1.3
+Python = 3.10 //
+autocommand==2.2.1 //
+click==8.1.3 //
 colorama==0.4.6
 Flask==2.2.3
 gunicorn==20.1.0
