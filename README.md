@@ -88,7 +88,7 @@ The ball tracking class is named `Tracker` and by giving its `track` method the 
 ## Tests ##
 
 
-Python unit tests will be available soon.
+Unit tests can be run by checking out the ball_tracking and line_detection branches respectively and using the unit_test_{number} videos in the snapshot directory.
 
 
 ## Execute Code ##
