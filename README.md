@@ -55,7 +55,7 @@ Install all required dependencies by running:
 
 
 ## File Structure ## 
-
+<pre>
 .
 └── tennis_tracker/ \
     ├── app/ \
@@ -72,7 +72,7 @@ Install all required dependencies by running:
     ├── Backup/ \
     │   └── backup application \
     └── wsgi.py \
-
+</pre>
 
 
 ## Tests ##
