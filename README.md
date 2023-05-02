@@ -29,7 +29,7 @@ path==16.3.0 \
 pip-run==8.8.0 \
 pyparsing==3.0.7 \
 Werkzeug==2.2.3 \
-wincertstore==0.2 \
+wincertstore==0.2 
 
 
 
