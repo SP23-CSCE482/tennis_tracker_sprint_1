@@ -54,7 +54,24 @@ Install all required dependencies by running:
  `pip install -r requirements.txt`
 
 
+## File Structure ## 
 
+.
+└── tennis_tracker/
+    ├── app/
+    │   ├── __init__.py
+    │   ├── routes.py
+    │   ├── workers.py
+    │   ├── workersDebug.py
+    │   ├── static/
+    │   │   └── index.css
+    │   └── templates/
+    │       └── index.html
+    ├── media/
+    │   └── testvideo.MOV
+    ├── Backup/
+    │   └── backup application
+    └── wsgi.py
 
 
 
