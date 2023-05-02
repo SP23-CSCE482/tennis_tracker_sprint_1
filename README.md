@@ -76,11 +76,11 @@ Install all required dependencies by running:
 
 ## Code Description ## 
 
-The app directory contains the flask application, and this is run using the wsgi.py file. \ 
+The app directory contains the flask application, and this is run using the wsgi.py file. 
 
 Within the app, the worker.py file contains the line detection and ball tracking algorithms. 
 
-The line detections class is named `InOut` and takes in an image of the tennis court upon creation. This class is later used by calling upon its `inOut` method which is given a set of points and then updates the flask app on whether the ball is in or out. \
+The line detections class is named `InOut` and takes in an image of the tennis court upon creation. This class is later used by calling upon its `inOut` method which is given a set of points and then updates the flask app on whether the ball is in or out. 
 
 The ball tracking class is named `Tracker` and by giving its `track` method the video feed, the ball tracking is done. The track method is constantly being ran by one thread and the `InOut` class is then called from within this method. 
 
