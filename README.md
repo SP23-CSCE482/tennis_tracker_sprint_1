@@ -102,13 +102,6 @@ After talking with the TA Nick, we will not be deploying the application.
 The testing will have to be using a computer and phone locally. 
 
 
-## CI/CD ##
-
-
-We currently have an AWS EC2 instance that is running the web application. 
-However this is going to moved to heroku and the storage of files will be in a AWS S3 bucket. 
-
-
 ## References ##
 https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
 https://pythonbasics.org/flask-upload-file/
