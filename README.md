@@ -4,7 +4,7 @@
 ## Introduction ##
 
 
-Our team is creating an application that will help determine if a ball lands in or out in a match of tennis. By using this application tennis players will have access to an accessible way to track tennis balls. By setting up their phones on a tripod watching the tennis match and having access to the web application, the system will work. 
+Our team is creating an application that will help determine if a ball lands in or out in a match of tennis. By using this application tennis players will have access to an accessible way to track tennis balls. By setting up their webcam on a tripod watching the tennis match and having access to the web application, the system will work. 
 
 
 ## Requirements ##
