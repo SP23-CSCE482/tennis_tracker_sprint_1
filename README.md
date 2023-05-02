@@ -57,21 +57,21 @@ Install all required dependencies by running:
 ## File Structure ## 
 
 .
-└── tennis_tracker/
-    ├── app/
-    │   ├── __init__.py
-    │   ├── routes.py
-    │   ├── workers.py
-    │   ├── workersDebug.py
-    │   ├── static/
-    │   │   └── index.css
-    │   └── templates/
-    │       └── index.html
-    ├── media/
-    │   └── testvideo.MOV
-    ├── Backup/
-    │   └── backup application
-    └── wsgi.py
+└── tennis_tracker/ \
+    ├── app/ \
+    │   ├── __init__.py \
+    │   ├── routes.py \
+    │   ├── workers.py \
+    │   ├── workersDebug.py \
+    │   ├── static/ \
+    │   │   └── index.css \
+    │   └── templates/ \
+    │       └── index.html \
+    ├── media/ \
+    │   └── testvideo.MOV \
+    ├── Backup/ \
+    │   └── backup application \
+    └── wsgi.py \
 
 
 
